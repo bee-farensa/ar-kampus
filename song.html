@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>AR Mars – Institut Asia</title>
+
+  <!-- A‑Frame + AR.js -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.2/aframe/build/aframe-ar.min.js"></script>
+
+  <style>
+    body { margin: 0; overflow: hidden; font-family: sans-serif }
+
+    #back {
+      position: absolute; top: 1rem; left: 1rem;
+      background: #444; color: #fff; padding: 0.5rem 1rem;
+      border-radius: 1rem; text-decoration: none; z-index: 9999;
+    }
+
+    #panel {
+      position: absolute; top: 1rem; right: 1rem; width: 300px;
+      background: rgba(255, 255, 255, 0.9); padding: 1rem; border-radius: 1rem;
+      font-family: monospace; z-index: 9999;
+    }
+
+    #controls {
+      position: absolute; bottom: 1rem; left: 50%;
+      transform: translateX(-50%); display: flex; gap: 1rem; z-index: 9999;
+    }
+
+    .btn {
+      background: #193f88; color: #fff; border: none;
+      padding: 0.5rem 1.25rem; border-radius: 0.75rem;
+      font-weight: bold; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" id="back">⬅ Kembali ke Menu</a>
+
+<!-- Panel lirik -->
+<div id="panel">
+  <h2 id="title">Pilih Lagu</h2>
+  <pre id="lyrics">Klik salah satu lagu di bawah untuk memulai.</pre>
+</div>
+
+<!-- Tombol pilih lagu -->
+<div id="controls">
+  <button class="btn" onclick="putar('wisuda')">Mars Wisuda</button>
+  <button class="btn" onclick="putar('versi2')">Jingle Institut Asia</button>
+</div>
+
+<!-- A‑Frame Scene -->
+<a-scene embedded arjs="sourceType: webcam; debugUIEnabled:false" vr-mode-ui="enabled:false">
+  <a-assets>
+    <a-asset-item id="model" src="assets/toga.glb"></a-asset-item>
+
+    <!-- Dua audio -->
+    <audio id="marsWisuda" src="sound/marsWisuda.mp3"></audio>
+    <audio id="marsVersi2" src="sound/jiggleAsia.mp3"></audio>
+  </a-assets>
+
+  <a-marker type="pattern" url="marker/markerasia.patt">
+    <!-- Kelompok objek dalam container -->
+    <a-entity id="modelGroup" position="0 0 0"
+              animation="property: position; dir: alternate; dur: 3000; easing: easeInOutSine; loop: true; to: 1 0 0">
+      <!-- Baris depan -->
+      <a-entity gltf-model="#model" position="-1.5 0 0.5" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="#model" position="-0.5 0 0.5" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="#model" position="0.5 0 0.5" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="#model" position="1.5 0 0.5" scale="0.5 0.5 0.5"></a-entity>
+
+      <!-- Baris belakang -->
+      <a-entity gltf-model="#model" position="-1.5 0 -0.5" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="#model" position="-0.5 0 -0.5" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="#model" position="0.5 0 -0.5" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="#model" position="1.5 0 -0.5" scale="0.5 0.5 0.5"></a-entity>
+    </a-entity>
+
+    <!-- Pemutar audio -->
+    <a-entity id="soundPlayer" sound="autoplay:false; positional:false;"></a-entity>
+  </a-marker>
+
+  <a-entity camera></a-entity>
+</a-scene>
+
+<!-- Script pemilih lagu -->
+<script>
+  const dataLagu = {
+    wisuda: {
+      judul: "Mars Wisuda – Institut Asia",
+      audioSel: "#marsWisuda",
+      lirik: `Gandeng tangan satukan cita-cita
+Sambut esok penuh harapan
+Gapai mimpi tunas muda
+Ciptakan dampak harapan bangsa
+
+Mari kita gandeng tangan
+Berinovasi di Institut Asia
+Mari kita membangun negeri
+Generasi tangguh jaya bersama
+
+Dengan rahmat Tuhan bersatu padu
+Aktif dengan kita semua
+Selalu tanggap dalam bertindak
+Berjuang untuk Indonesia
+
+Mari kita gandeng tangan
+Berinovasi di Institut Asia
+Mari kita membangun negeri
+Generasi tangguh jaya bersama
+
+Mari kita gandeng tangan
+Berinovasi di Institut Asia
+Mari kita membangun negeri
+Generasi tangguh jaya bersama`
+    },
+    versi2: {
+      judul: "Jingle Institut Asia",
+      audioSel: "#marsVersi2",
+      lirik: `Halo semuanya penerus bangsa
+Raih masa depan di kampus impian
+
+Institut Asia, Kuliah asyik kekinian
+Institut Asia, Mari bersama gapai impian
+Institut Asia, Tuk masa depan penuh harapan
+Institut Asia, Terus melangkah
+Siap jadi number one
+
+We are Institut Asia
+Tetap selalu jaya
+Banyak mahasiswa
+Berhasil gapai cita-cita
+Selalu produktif dan juga selalu berkreatif
+Dan jadilah mahasiswa yang berinovatif
+
+Go beyond your limit with Asia
+Gas, Mas Bro
+Pasti kalian betah
+Kalo sakit pasti beli obatnya di apotek
+Kalo masih jomblo 
+Di Asia banyak cewek cantik
+
+Institut Asia, Kuliah asyik kekinian
+Institut Asia, Mari bersama gapai impian
+Institut Asia, Tuk masa depan penuh harapan
+Institut Asia, Terus melangkah
+Siap jadi number one`
+    }
+  };
+
+  const soundEnt = document.querySelector('#soundPlayer');
+  const panelTitle = document.querySelector('#title');
+  const panelLyrics = document.querySelector('#lyrics');
+
+  function putar(kunci){
+    const cfg = dataLagu[kunci];
+    if(!cfg) return;
+
+    // set audio dan play
+    soundEnt.setAttribute('sound', `src: ${cfg.audioSel}; autoplay: false; positional: false;`);
+    soundEnt.components.sound.stopSound();
+    soundEnt.components.sound.playSound();
+
+    // update panel
+    panelTitle.textContent = cfg.judul;
+    panelLyrics.textContent = cfg.lirik;
+  }
+</script>
+
+</body>
+</html>

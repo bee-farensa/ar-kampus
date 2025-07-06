@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Menu AR Kampus</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind (bisa untuk lokal) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -15,16 +14,36 @@
 <body class="flex flex-col items-center justify-center h-screen bg-black/50 text-white relative">
 
   <!-- Logo kampus -->
-  <img src="assets/asia.jpg" alt="asia" class="absolute top-4 left-4 w-28 select-none" />
+  <img src="assets/logoASIA.png" alt="logo Institut ASIA" class="absolute top-4 left-4 w-28 select-none" />
 
-  <h1 class="text-2xl font-bold mb-8">Selamat Datang di AR Kampus</h1>
+  <!-- Judul -->
+  <h1 class="text-2xl font-bold mb-8 text-center">
+    Jelajahi Dunia AR di Institut ASIA Malang
+  </h1>
 
   <!-- Tombol Menu -->
   <div class="flex flex-col gap-4">
-    <a href="jiggle.html" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-xl text-center shadow">Jiggle</a>
-    <a href="mars.html"   class="px-6 py-2 bg-sky-600 hover:bg-sky-700 rounded-xl text-center shadow">Mars</a>
-    <a href="info.html"   class="px-6 py-2 bg-amber-600 hover:bg-amber-700 rounded-xl text-center shadow">Info</a>
+    <a href="game.html" class="px-6 py-2 bg-[#193f88] hover:bg-[#1e4d9f] text-white rounded-xl text-center shadow">
+      AsiaGo!
+    </a>
+    <a href="song.html" class="px-6 py-2 bg-[#fbd200] hover:bg-yellow-400 text-black font-semibold rounded-xl text-center shadow">
+      Asia Harmony
+    </a>
+    <a href="info.html" class="px-6 py-2 bg-[#e1242a] hover:bg-red-700 text-white rounded-xl text-center shadow">
+      Info Asia
+    </a>
+    <button onclick="keluarTab()"
+      class="px-6 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-xl text-center shadow">
+      Keluar
+    </button>
   </div>
+
+  <script>
+    function keluarTab() {
+      window.open('', '_self');
+      window.close();
+    }
+  </script>
 
 </body>
 </html>
